@@ -21,7 +21,7 @@ class ViewProducts(Resource):
         data=request.get_json(force=True)
         product_id=len(products)+1
         product_name=data["product_name"]
-        category=data["category"]
+        category=data["category_id"]
         stock_amount=data["stock_amount"]
         price=data['price']
         product=[product for product in products if product['product_name']==request.json['product_name']]
@@ -34,7 +34,7 @@ class ViewProducts(Resource):
         
         new_product={"product_id":product_id,
                      "product_name":product_name,
-                     "category":category,
+                     "category_id":category,
                      "stock_amount":stock_amount,
                      "price":price}
         

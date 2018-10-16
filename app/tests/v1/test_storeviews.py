@@ -32,5 +32,5 @@ class TestProducts(unittest.TestCase):
                                data=json.dumps(self.products),
                                headers={'content_type': 'application/json'})
 
-        self.assertEqual(response.json,{'New Product': {'category': 'Bakerly','price': 20,'product_id': 1,'product_name': 'Bread','stock_amount': 2000}}) 
+        self.assertEqual(response.json,{'New Product': {"category_id": 1,'price': 20,'product_id': 1,'product_name': 'Bread','stock_amount': 2000}}) 
         self.assertEqual(response.status_code,201)
