@@ -50,4 +50,4 @@ class ViewSingleProduct(Resource):
             single_product=[product for product in products if product['product_id']==product_id]
             if not single_product:
                 return {"Error":"Product Not Found"}
-            return {"Product":single_product}
+            return {"Product":single_product},200
