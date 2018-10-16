@@ -76,3 +76,11 @@ class TestProducts(unittest.TestCase):
                                         "total_price":60,
                                         "date_sold":"2018-10-16"}}) 
         self.assertEqual(response.status_code,201)
+    
+    '''Test fetch for specific sale record'''
+    def test_fetch_single_sale_record(self):
+        '''Test fetch for single sale record [GET request]'''
+        
+        result=self.app.get('/api/v1/sales/1',
+                            headers={'content_type': 'application/json'})
+        self.assertEqual(result.status_code,200)
