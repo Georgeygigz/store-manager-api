@@ -7,7 +7,7 @@ from flask_restful import Api
 
 
 #local imports
-from app.api.v1.views.store_views import ViewProducts,ViewSingleProduct
+from app.api.v1.views.store_views import ViewProducts,ViewSingleProduct,ViewSalesRecord
 from instance.config import app_configuration
 
 blueprint=Blueprint('product',__name__,url_prefix='/api/v1')
@@ -19,4 +19,5 @@ def create_app():
     app.register_blueprint(blueprint)
     app_api.add_resource(ViewProducts,'/products')
     app_api.add_resource(ViewSingleProduct,'/products/<int:product_id>')
+    app_api.add_resource(ViewSalesRecord,'/sales')
     return app

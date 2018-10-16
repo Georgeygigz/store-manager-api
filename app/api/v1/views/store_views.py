@@ -10,7 +10,7 @@ from app.api.v1.models.store_model import StoreManager
 
 
 products=StoreManager().get_all_products()
-
+sales_record=StoreManager().get_all_sales()
 class ViewProducts(Resource):
     '''Get all products'''
     def get(self):
@@ -51,3 +51,7 @@ class ViewSingleProduct(Resource):
             if not single_product:
                 return {"Error":"Product Not Found"}
             return {"Product":single_product},200
+
+class ViewSalesRecord(Resource):
+    def get(self):
+        return {"Sales Record":sales_record},200
