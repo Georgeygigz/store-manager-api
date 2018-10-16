@@ -71,7 +71,8 @@ class TestProducts(unittest.TestCase):
                                         {"sale_id":1,
                                         "attedant_name":"Mary",
                                         "product_name":"Orange",
-                                        "product_price":20,"quantity":3,
+                                        "product_price":20,
+                                        "quantity":3,
                                         "total_price":60,
                                         "date_sold":"12-3-2018"}}) 
         self.assertEqual(response.status_code,201)

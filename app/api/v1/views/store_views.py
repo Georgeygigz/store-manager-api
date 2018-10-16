@@ -67,7 +67,6 @@ class ViewSalesRecord(Resource):
         quantity=data["quantity"]
         total_price=price*quantity
         date_sold=current_date
-        
 
         if request.json['product_name'] in  [sale['product_name'] for sale in sales_record]:
             return {"Message":"{} Exist in cart".format(request.json['product_name'])}
@@ -81,7 +80,7 @@ class ViewSalesRecord(Resource):
                   "date_sold":date_sold}
         product_sold=[product for product in products if product['product_name']==request.json['product_name']]
         if not product_sold or product_sold[0]['stock_amount']==0:
-            return {request.json['product_name']:"Out of stock"}
+            return {"Message":"{} Out of stock".format(request.json['product_name'])}
         sales_record.append(new_sale)
         product_sold[0]['stock_amount']-=request.json['quantity']
         return {"New sale":new_sale}
