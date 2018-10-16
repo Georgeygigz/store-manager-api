@@ -6,10 +6,10 @@ from flask import request
 from flask_restful import Resource
 
 #import class products
-from app.api.v1.models.store_model import Products
+from app.api.v1.models.store_model import StoreManager
 
 
-products=Products().get_all_products()
+products=StoreManager().get_all_products()
 
 class ViewProducts(Resource):
     '''Get all products'''
