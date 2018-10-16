@@ -41,3 +41,10 @@ class ViewProducts(Resource):
         products.append(new_product)
 
         return {"New Product":new_product},201 #created
+
+class ViewSingleProduct(Resource):
+        def get(self,product_id):
+            single_product=[product for product in products if product['product_id']==product_id]
+            if not single_product:
+                return {"Error":"Product Not Found"}
+            return {"Product":single_product}
