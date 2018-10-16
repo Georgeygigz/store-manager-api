@@ -84,3 +84,13 @@ class ViewSalesRecord(Resource):
         sales_record.append(new_sale)
         product_sold[0]['stock_amount']-=request.json['quantity']
         return {"New Sale Record":new_sale},201
+
+
+'''Fetch single sale record'''
+class SingleSale(Resource):
+    def get(self,sale_id):
+        single_sale=[sale for sale in sales_record if sale['sale_id']==sale_id]
+        if not single_sale:
+            return {"Error":"Sale Not Found"}
+        return {"Sale":single_sale},200 #ok
+            
