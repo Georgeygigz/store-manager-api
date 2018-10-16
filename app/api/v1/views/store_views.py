@@ -52,6 +52,7 @@ class ViewSingleProduct(Resource):
                 return {"Error":"Product Not Found"}
             return {"Product":single_product},200
 
+'''View all sales records'''
 class ViewSalesRecord(Resource):
     def get(self):
         return {"Sales Record":sales_record},200
