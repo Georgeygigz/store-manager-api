@@ -3,6 +3,7 @@
 This is where all API Endpoints will be captured
 '''
 from flask import request
+from datetime import date
 from flask_restful import Resource
 
 #import class products
@@ -18,6 +19,7 @@ class ViewProducts(Resource):
     
     '''Adding a new product'''
     def post(self):
+       
         data=request.get_json(force=True)
         product_id=len(products)+1
         product_name=data["product_name"]
@@ -54,3 +56,28 @@ class ViewSingleProduct(Resource):
 class ViewSalesRecord(Resource):
     def get(self):
         return {"Sales Record":sales_record},200
+    
+    def post(self):
+        current_date=str(date.today())
+        data=request.get_json(force=True)
+        sale_id=len(sales_record)+1
+        attedant_name=data["attedant_name"]
+        product_name=data["product_name"]
+        price=data["product_price"]
+        quantity=data["quantity"]
+        total_price=price*quantity
+        date_sold=current_date
+
+        new_sale={"sale_id":sale_id,
+                  "attedant_name":attedant_name,
+                  "product_name":product_name,
+                  "product_price":price,
+                  "quantity":quantity,
+                  "total_price":total_price,
+                  "date_sold":date_sold}
+        product_sold=[product for product in products if product['product_name']==request.json['product_name']]
+        if not product_sold or product_sold[0]['stock_amount']==0:
+            return {request.json['product_name']:"Out of stock"}
+        sales_record.append(new_sale)
+        product_sold[0]['stock_amount']-=request.json['quantity']
+        return {"New sale":new_sale}
