@@ -15,6 +15,13 @@ class TestProducts(unittest.TestCase):
                        "category_id":1,
                        "stock_amount":2000,
                        "price":20}
+        self.sales={"sale_id":1,
+                    "attedant_name":"Mary",
+                    "product_name":"Orange",
+                    "product_price":20,
+                    "quantity":3,
+                    "total_price":60,
+                    "date_sold":"12-3-2018"}
         
     '''
     Test Get all products
@@ -24,7 +31,7 @@ class TestProducts(unittest.TestCase):
                                 headers={'content_type': 'application/json'})
         self.assertEqual(response.status_code,200)
     
-        '''
+    '''
     Test add new product
     '''
     def test_add_new_product(self):
@@ -51,4 +58,20 @@ class TestProducts(unittest.TestCase):
                                 headers={'content_type': 'application/json'})
         self.assertEqual(response.status_code,200)
     
-        
+    
+    '''
+    Test add new product
+    '''
+    def test_make_new_sale_record(self):
+        response=self.app.post('/api/v1/sales',
+                               data=json.dumps(self.products),
+                               headers={'content_type': 'application/json'})
+
+        self.assertEqual(response.json,{'New Sale Record':
+                                        {"sale_id":1,
+                                        "attedant_name":"Mary",
+                                        "product_name":"Orange",
+                                        "product_price":20,"quantity":3,
+                                        "total_price":60,
+                                        "date_sold":"12-3-2018"}}) 
+        self.assertEqual(response.status_code,201)
