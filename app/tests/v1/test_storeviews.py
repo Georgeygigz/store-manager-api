@@ -38,11 +38,6 @@ class TestProducts(unittest.TestCase):
     '''Test fetch for specific product'''
     def test_fetch_single_product(self):
         '''Test fetch for single product [GET request]'''
-        response =self.app.post('/api/v1/products/1',
-                                    data=json.dumps(self.products),
-                                    headers={'content_type': 'application/json'})
-
-        self.assertEqual(response.status_code,201)
         
         result=self.app.get('/api/v1/products/1',
                             headers={'content_type': 'application/json'})
