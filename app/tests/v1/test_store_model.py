@@ -13,7 +13,7 @@ class TestProductsModels(unittest.TestCase):
         self.products=Products()
 
     '''
-    Test fro available records
+    Test for available records
     '''
     def test_available_data(self):
         self.assertEqual(self.products.get_all_products(),[])
