@@ -17,7 +17,7 @@ class TestProducts(unittest.TestCase):
                        "price":20}
         self.sales={"sale_id":1,
                     "attedant_name":"Mary",
-                    "product_name":"Orange",
+                    "product_name":"Bread",
                     "product_price":20,
                     "quantity":3,
                     "total_price":60,
@@ -64,15 +64,15 @@ class TestProducts(unittest.TestCase):
     '''
     def test_make_new_sale_record(self):
         response=self.app.post('/api/v1/sales',
-                               data=json.dumps(self.products),
+                               data=json.dumps(self.sales),
                                headers={'content_type': 'application/json'})
 
         self.assertEqual(response.json,{'New Sale Record':
                                         {"sale_id":1,
                                         "attedant_name":"Mary",
-                                        "product_name":"Orange",
+                                        "product_name":"Bread",
                                         "product_price":20,
                                         "quantity":3,
                                         "total_price":60,
-                                        "date_sold":"12-3-2018"}}) 
+                                        "date_sold":"2018-10-16"}}) 
         self.assertEqual(response.status_code,201)

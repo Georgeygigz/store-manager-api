@@ -83,4 +83,4 @@ class ViewSalesRecord(Resource):
             return {"Message":"{} Out of stock".format(request.json['product_name'])}
         sales_record.append(new_sale)
         product_sold[0]['stock_amount']-=request.json['quantity']
-        return {"New sale":new_sale}
+        return {"New Sale Record":new_sale},201
