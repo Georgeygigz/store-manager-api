@@ -7,7 +7,6 @@ from flask_restful import Api
 
 
 #local imports
-
 from app.api.v1.views.store_views import ViewProducts
 from instance.config import app_configuration
 
