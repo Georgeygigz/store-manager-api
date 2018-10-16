@@ -91,6 +91,6 @@ class SingleSale(Resource):
     def get(self,sale_id):
         single_sale=[sale for sale in sales_record if sale['sale_id']==sale_id]
         if not single_sale:
-            return {"Error":"Sale Not Found"}
+            return {"Message":"Sale Not Found"}
         return {"Sale":single_sale},200 #ok
             
