@@ -60,16 +60,18 @@ class ViewSalesRecord(Resource):
     def post(self):
         current_date=str(date.today())
         data=request.get_json(force=True)
+        current_product=[product for product in products if product['product_name']==request.json['product_name']]
         sale_id=len(sales_record)+1
         attedant_name=data["attedant_name"]
         product_name=data["product_name"]
-        price=data["product_price"]
+        price=current_product[0]['price']
         quantity=data["quantity"]
         total_price=price*quantity
         date_sold=current_date
 
         if request.json['product_name'] in  [sale['product_name'] for sale in sales_record]:
             return {"Message":"{} Exist in cart".format(request.json['product_name'])}
+
 
         new_sale={"sale_id":sale_id,
                   "attedant_name":attedant_name,
