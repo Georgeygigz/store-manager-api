@@ -42,4 +42,13 @@ class TestProducts(unittest.TestCase):
         result=self.app.get('/api/v1/products/1',
                             headers={'content_type': 'application/json'})
         self.assertEqual(result.status_code,200)
+    
+    '''
+    Test Get all sales
+    '''
+    def test_get_all_sales(self):
+        response=self.app.get('/api/v1/sales',
+                                headers={'content_type': 'application/json'})
+        self.assertEqual(response.status_code,200)
+    
         
