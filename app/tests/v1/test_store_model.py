@@ -18,3 +18,5 @@ class TestProductsModels(unittest.TestCase):
     def test_available_data(self):
         self.assertEqual(self.products.get_all_products(),[])
         self.assertEqual(self.products.get_all_sales(),[])
+        self.assertEqual(self.products.get_all_admin_users(),[])
+        self.assertEqual(self.products.get_all_store_attedant(),[])
