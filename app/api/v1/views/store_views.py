@@ -67,6 +67,10 @@ class ViewSalesRecord(Resource):
         quantity=data["quantity"]
         total_price=price*quantity
         date_sold=current_date
+        
+
+        if request.json['product_name'] in  [sale['product_name'] for sale in sales_record]:
+            return {"Message":"{} Exist in cart".format(request.json['product_name'])}
 
         new_sale={"sale_id":sale_id,
                   "attedant_name":attedant_name,
