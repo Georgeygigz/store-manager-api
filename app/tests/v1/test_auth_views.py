@@ -75,14 +75,15 @@ class TestApiEndpoints(unittest.TestCase):
             headers={'content_type': 'application/json'})
         self.assertEqual(response.json, {'message': 'invalid password'})
         self.assertEqual(response.status_code, 401)
-    
+
     '''Test Login'''
+
     def test_user_login(self):
-        response=self.app.post('/api/v1/auth/login', data=json.dumps({
-            'email' : 'mary@gmail.com',
-            'password' : 'maR#@Y_123'
-            }))
-        result = json.loads(response.data.decode('utf-8'))        
+        response = self.app.post('/api/v1/auth/login', data=json.dumps({
+            'email': 'mary@gmail.com',
+            'password': 'maR#@Y_123'
+        }))
+        result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 200,result['message'])
 
     def tearDown(self):
