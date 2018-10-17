@@ -116,8 +116,8 @@ class ViewSalesRecord(Resource):
 '''Fetch single sale record'''
 class SingleSale(Resource):
     def get(self, sale_id):
-        single_sale = [
-            sale for sale in sales_record if sale['sale_id'] == sale_id]
-        if not single_sale:
-            return {"Message": "Sale Not Found"}, 400  # ok
-        return {"Sale": single_sale}, 200  # ok
+        single_sale = [sale for sale in sales_record if sale['sale_id'] == sale_id]
+        if  single_sale:
+            return {"Sale": single_sale}, 200  # ok
+        return {"Message": "Sale Not Found"}, 400  # ok
+        

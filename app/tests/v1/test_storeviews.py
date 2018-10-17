@@ -115,6 +115,16 @@ class TestProducts(unittest.TestCase):
         )
         result = json.loads(resp.data.decode('utf-8'))                
         self.assertEqual(resp.status_code, 200,result['Sale'])
+
+    def test_items_outof_range_record(self):
+        '''Test fetch for single sale record [GET request]'''
+        resp = self.app.get(
+            '/api/v1/sales/2',
+            headers={'content_type': 'application/json'}
+        )
+        result = json.loads(resp.data.decode('utf-8'))
+        self.assertEqual(result['Message'],'Sale Not Found')                
+        self.assertEqual(resp.status_code, 400,result['Message'])
     
     '''Test invalid post url'''
     def test_invalid_post_product_url(self):

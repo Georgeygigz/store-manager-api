@@ -20,23 +20,22 @@ class TestApiEndpoints(unittest.TestCase):
             "user_id": 1,
             "username": 'mary',
             "email": "mary@gmail.com",
-            "password": "maR#@Y_123"
+            "password": "maR#@Y_123",
+            "role": "user"
+        }
+        self.users1 = {
+            "user_id": 2,
+            "username": 'james',
+            "email": "mary@gmail.com",
+            "password": "maR#@Y_123",
+            "role": "user"
         }
 
-    def test_user_already_exist(self):
-        ''' Test for duplicate emails'''
-        post_result = self.app.post(
-            '/app/v1/signup',
-            data=json.dumps(self.users),
-            headers={'content_type': 'application/json'}
-        )
-        self.assertEqual(post_result.json, {'geoe@gmail.com': 'Aready Exist'})
-        self.assertEqual(post_result.status_code, 409)
-
     '''Test test create an user account'''
+
     def test_user_create_account(self):
         response = self.app.post(
-            '/app/v1/signup',
+            '/api/v1/auth/register',
             data=json.dumps(self.users),
             headers={'content_type': 'application/json'}
         )
@@ -45,14 +44,16 @@ class TestApiEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
 
     '''Test for invalid email'''
+
     def test_invalid_email(self):
         response = self.app.post(
-            'app/v1/signup',
+            'api/v1/auth/register',
             data=json.dumps(
                 {"user_id": 1,
                  "username": 'mary',
                  "email": "marygmail.com",
-                 "password": "maR#@Y_123"}
+                 "password": "maR#@Y_123",
+                 "role": "user"}
             ),
             headers={'content_type': 'application/json'}
         )
@@ -60,15 +61,20 @@ class TestApiEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 401)
 
     '''Test for invalid password'''
+
     def test_invalid_password(self):
         response = self.app.post(
-            'app/v1/signup',
+            'api/v1/auth/register',
             data=json.dumps(
                 {"user_id": 1,
                  "username": 'mary',
                  "email": "mary@gmail.com",
-                 "password": "maR#@"}
+                 "password": "maR#@",
+                 "role": "user"}
             ),
             headers={'content_type': 'application/json'})
         self.assertEqual(response.json, {'message': 'invalid password'})
         self.assertEqual(response.status_code, 401)
+
+    def tearDown(self):
+        pass
