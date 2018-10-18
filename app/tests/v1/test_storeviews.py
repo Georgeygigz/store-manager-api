@@ -1,4 +1,4 @@
-# app/tests/v1/test_storeviews
+# app/tests/v1/test_storeviews.py
 import unittest
 import json
 from flask_jwt_extended import (
@@ -36,16 +36,13 @@ class TestProducts(unittest.TestCase):
             "password": "maR#@Y_123",
             "role": "user"
         }
-    '''
-    Test Get all products
-    '''
-
+   
     def test_config(self):
         '''Test configurations'''
         self.assertEqual(self.app.testing, True)
-
+    
+    '''Test get all products'''
     def test_get_all_products(self):
-     
         response = self.app.get(
             '/api/v1/products',
             content_type='application/json'
@@ -55,22 +52,17 @@ class TestProducts(unittest.TestCase):
         self.assertEqual(response.status_code, 200,
                          result['Available Products'])
 
-    '''
-    Test add new product
-    '''
-
+    '''Test add new product'''
     def test_add_new_product(self):
         response = self.app.post(
             '/api/v1/products',
             data=json.dumps(self.products),
             headers={'content_type': 'application/json'}
         )
-
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 201, result['New Product'])
 
     '''Test fetch for specific product'''
-
     def test_fetch_single_product(self):
         '''Test fetch for single product [GET request]'''
         response = self.app.get(
@@ -80,10 +72,7 @@ class TestProducts(unittest.TestCase):
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 200, result['Product'])
 
-    '''
-    Test Get all sales
-    '''
-
+    '''Test Get all sales'''
     def test_get_all_sales(self):
         response = self.app.get(
             '/api/v1/sales',
@@ -92,26 +81,14 @@ class TestProducts(unittest.TestCase):
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 200, result['Sales Record'])
 
-    '''
-    Test add new product
-    '''
-
+    ''' Test add new product'''
     def test_product_exist(self):
-
         resp = self.app.get(
             '/api/v1/sales',
             headers={'content_type': 'application/json'}
         )
         result = json.loads(resp.data.decode('utf-8'))
         self.assertEqual(resp.status_code, 200, result["Sales Record"])
-
-        response = self.app.post(
-            '/api/v1/sales',
-            data=json.dumps(self.sales),
-            headers={'content_type': 'application/json'}
-        )
-        result = json.loads(response.data.decode('utf-8'))
-        self.assertEqual(response.status_code, 200, result['Message'])
 
     def test_add_new_sale_record(self):
         response = self.app.post(
@@ -123,7 +100,6 @@ class TestProducts(unittest.TestCase):
         self.assertEqual(response.status_code, 201, result['New Sale Record'])
 
     '''Test fetch for specific sale record'''
-
     def test_fetch_single_sale_record(self):
         '''Test fetch for single sale record [GET request]'''
         resp = self.app.get(

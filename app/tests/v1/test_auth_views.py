@@ -1,18 +1,17 @@
-# app/test/v1/test_views.py
+# app/test/v1/test_auth_views.py
 
-'''
-Testing authentication endpoints
-'''
-
+'''Testing authentication endpoints'''
 import unittest
 import json
 from flask_jwt_extended import (
     jwt_required, create_access_token,
     get_jwt_identity
 )
+
+#Local imports
 from app import create_app
 
-
+'''Create a testing class'''
 class TestApiEndpoints(unittest.TestCase):
     def setUp(self):
         '''
@@ -36,7 +35,6 @@ class TestApiEndpoints(unittest.TestCase):
         }
 
     '''Test test create an user account'''
-
     def test_user_create_account(self):
         response = self.app.post(
             '/api/v1/auth/register',
@@ -48,7 +46,6 @@ class TestApiEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
 
     '''Test for invalid email'''
-
     def test_invalid_email(self):
         response = self.app.post(
             'api/v1/auth/register',
@@ -65,7 +62,6 @@ class TestApiEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 401)
 
     '''Test for invalid password'''
-
     def test_invalid_password(self):
         response = self.app.post(
             'api/v1/auth/register',
@@ -81,7 +77,6 @@ class TestApiEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 401)
 
     '''Test Login'''
-
     def test_user_login(self):
         response = self.app.post('/api/v1/auth/login', data=json.dumps(self.user ))
         result = json.loads(response.data.decode('utf-8'))

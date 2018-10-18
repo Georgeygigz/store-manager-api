@@ -1,8 +1,6 @@
-'''
-Data Structre model that act as the database
-'''
+#app/api/v1/models/store_model.py
 
-
+'''Data Structre model that act as the database'''
 class StoreManager():
     def __init__(self):
         self.all_products = []

@@ -1,7 +1,6 @@
 # app/api/v1/views/store_views.py
-'''
-This is where all API Endpoints will be captured
-'''
+
+'''This is where all API Endpoints will be captured'''
 from flask import request, jsonify, make_response
 from datetime import date
 from flask_restful import Resource
@@ -9,7 +8,6 @@ from flask_restful import Resource
 # local imports
 from app.api.v1.models.store_model import StoreManager
 from app.api.v1.views.auth_view import login_required
-
 
 
 products = StoreManager().get_all_products()
@@ -56,8 +54,6 @@ class ViewProducts(Resource):
 
 
 '''Fetch single product'''
-
-
 class ViewSingleProduct(Resource):
     def get(self, product_id):
         single_product = [
@@ -68,8 +64,6 @@ class ViewSingleProduct(Resource):
 
 
 '''View all sales records'''
-
-
 class ViewSalesRecord(Resource):
     def get(self):
         return {"Sales Record": sales_record}, 200  # ok
