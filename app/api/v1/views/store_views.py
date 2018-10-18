@@ -2,12 +2,14 @@
 '''
 This is where all API Endpoints will be captured
 '''
-from flask import request
+from flask import request, jsonify, make_response
 from datetime import date
 from flask_restful import Resource
 
-# import class products
+# local imports
 from app.api.v1.models.store_model import StoreManager
+from app.api.v1.views.auth_view import login_required
+
 
 
 products = StoreManager().get_all_products()
@@ -16,12 +18,10 @@ sales_record = StoreManager().get_all_sales()
 
 class ViewProducts(Resource):
     '''Get all products'''
-
     def get(self):
-        return {"Available Products": products}, 200
+        return make_response(jsonify({"Available Products": products}), 200)
 
     '''Adding a new product'''
-
     def post(self):
 
         data = request.get_json(force=True)
@@ -73,7 +73,7 @@ class ViewSingleProduct(Resource):
 class ViewSalesRecord(Resource):
     def get(self):
         return {"Sales Record": sales_record}, 200  # ok
-
+    
     def post(self):
         current_date = str(date.today())
         data = request.get_json(force=True)
@@ -115,6 +115,7 @@ class ViewSalesRecord(Resource):
 
 '''Fetch single sale record'''
 class SingleSale(Resource):
+
     def get(self, sale_id):
         single_sale = [sale for sale in sales_record if sale['sale_id'] == sale_id]
         if  single_sale:

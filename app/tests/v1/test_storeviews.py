@@ -1,6 +1,10 @@
 # app/tests/v1/test_storeviews
 import unittest
 import json
+from flask_jwt_extended import (
+    jwt_required, create_access_token,
+    get_jwt_identity
+)
 from app import create_app
 
 '''
@@ -25,18 +29,31 @@ class TestProducts(unittest.TestCase):
                       "total_price": 60,
                       "date_sold": "12-3-2018"}
 
+        self.user = {
+            "user_id": 1,
+            "username": 'mary',
+            "email": "mary@gmail.com",
+            "password": "maR#@Y_123",
+            "role": "user"
+        }
     '''
     Test Get all products
     '''
 
+    def test_config(self):
+        '''Test configurations'''
+        self.assertEqual(self.app.testing, True)
+
     def test_get_all_products(self):
+     
         response = self.app.get(
             '/api/v1/products',
-            headers={'content_type': 'application/json'}
+            content_type='application/json'
         )
         result = json.loads(response.data.decode('utf-8'))
 
-        self.assertEqual(response.status_code, 200,result['Available Products'])
+        self.assertEqual(response.status_code, 200,
+                         result['Available Products'])
 
     '''
     Test add new product
@@ -85,22 +102,22 @@ class TestProducts(unittest.TestCase):
             '/api/v1/sales',
             headers={'content_type': 'application/json'}
         )
-        result= json.loads(resp.data.decode('utf-8'))
+        result = json.loads(resp.data.decode('utf-8'))
         self.assertEqual(resp.status_code, 200, result["Sales Record"])
 
         response = self.app.post(
-        '/api/v1/sales',
-        data=json.dumps(self.sales),
-        headers={'content_type': 'application/json'}
+            '/api/v1/sales',
+            data=json.dumps(self.sales),
+            headers={'content_type': 'application/json'}
         )
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 200, result['Message'])
-    
+
     def test_add_new_sale_record(self):
         response = self.app.post(
-        '/api/v1/sales',
-        data=json.dumps(self.sales),
-        headers={'content_type': 'application/json'}
+            '/api/v1/sales',
+            data=json.dumps(self.sales),
+            headers={'content_type': 'application/json'}
         )
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 201, result['New Sale Record'])
@@ -113,8 +130,8 @@ class TestProducts(unittest.TestCase):
             '/api/v1/sales/1',
             headers={'content_type': 'application/json'}
         )
-        result = json.loads(resp.data.decode('utf-8'))                
-        self.assertEqual(resp.status_code, 200,result['Sale'])
+        result = json.loads(resp.data.decode('utf-8'))
+        self.assertEqual(resp.status_code, 200, result['Sale'])
 
     def test_items_outof_range_record(self):
         '''Test fetch for single sale record [GET request]'''
@@ -123,10 +140,11 @@ class TestProducts(unittest.TestCase):
             headers={'content_type': 'application/json'}
         )
         result = json.loads(resp.data.decode('utf-8'))
-        self.assertEqual(result['Message'],'Sale Not Found')                
-        self.assertEqual(resp.status_code, 400,result['Message'])
-    
+        self.assertEqual(result['Message'], 'Sale Not Found')
+        self.assertEqual(resp.status_code, 400, result['Message'])
+
     '''Test invalid post url'''
+
     def test_invalid_post_product_url(self):
         response = self.app.post(
             '/api/v1/productss/',
@@ -134,7 +152,7 @@ class TestProducts(unittest.TestCase):
             headers={'content_type': 'application/json'}
         )
         self.assertEqual(response.status, '404 NOT FOUND')
-    
+
     def test_invalid_get_product_url(self):
         response = self.app.get(
             '/api/v1//productss/',

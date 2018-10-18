@@ -6,6 +6,10 @@ Testing authentication endpoints
 
 import unittest
 import json
+from flask_jwt_extended import (
+    jwt_required, create_access_token,
+    get_jwt_identity
+)
 from app import create_app
 
 
@@ -23,7 +27,7 @@ class TestApiEndpoints(unittest.TestCase):
             "password": "maR#@Y_123",
             "role": "user"
         }
-        self.users1 = {
+        self.user = {
             "user_id": 2,
             "username": 'james',
             "email": "mary@gmail.com",
@@ -79,10 +83,7 @@ class TestApiEndpoints(unittest.TestCase):
     '''Test Login'''
 
     def test_user_login(self):
-        response = self.app.post('/api/v1/auth/login', data=json.dumps({
-            'email': 'mary@gmail.com',
-            'password': 'maR#@Y_123'
-        }))
+        response = self.app.post('/api/v1/auth/login', data=json.dumps(self.user ))
         result = json.loads(response.data.decode('utf-8'))
         self.assertEqual(response.status_code, 200,result['message'])
 

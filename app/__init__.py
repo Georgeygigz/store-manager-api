@@ -9,7 +9,7 @@ from flask_restful import Api
 #local imports
 from app.api.v1.views.store_views import ViewProducts,ViewSingleProduct
 from app.api.v1.views.store_views import ViewSalesRecord,SingleSale
-from app.api.v1.views.auth_view import CreateAccount
+from app.api.v1.views.auth_view import CreateAccount,Login
 from instance.config import app_configuration
 
 blueprint=Blueprint('product',__name__,url_prefix='/api/v1')
@@ -24,4 +24,5 @@ def create_app():
     app_api.add_resource(ViewSalesRecord,'/sales')
     app_api.add_resource(SingleSale,'/sales/<int:sale_id>')
     app_api.add_resource(CreateAccount,'/auth/register')
+    app_api.add_resource(Login,'/auth/login')
     return app
