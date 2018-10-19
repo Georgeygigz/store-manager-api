@@ -20,9 +20,12 @@ class TestProducts(unittest.TestCase):
                          "product_name": "Bread",
                          "category_id": 1,
                          "stock_amount": 2000,
-                         "price": 20}
+                         "price": 20,
+                        "low_inventory_stock": 2
+                         }
         self.sales = {"sale_id": 1,
                       "attedant_name": "Mary",
+                      "customer_name": "James",
                       "product_name": "Bread",
                       "product_price": 20,
                       "quantity": 3,

@@ -16,10 +16,12 @@ sales_record = StoreManager().get_all_sales()
 
 class ViewProducts(Resource):
     '''Get all products'''
+
     def get(self):
         return make_response(jsonify({"Available Products": products}), 200)
 
     '''Adding a new product'''
+
     def post(self):
 
         data = request.get_json(force=True)
@@ -28,6 +30,7 @@ class ViewProducts(Resource):
         category = data["category_id"]
         stock_amount = data["stock_amount"]
         price = data['price']
+        inventory_stock = data['low_inventory_stock']
         product = [product for product in products if product['product_name']
                    == request.json['product_name']]
         if (not request.json or not "product_name" in request.json):
@@ -40,12 +43,13 @@ class ViewProducts(Resource):
             product[0]["stock_amount"] += request.json['stock_amount']
             return {"Products": product}, 200  # ok
 
-        new_product = {
+        new_product={
             "product_id": product_id,
             "product_name": product_name,
             "category_id": category,
             "stock_amount": stock_amount,
-            "price": price
+            "price": price,
+            "low_inventory_stock": inventory_stock
         }
 
         products.append(new_product)
@@ -67,7 +71,7 @@ class ViewSingleProduct(Resource):
 class ViewSalesRecord(Resource):
     def get(self):
         return {"Sales Record": sales_record}, 200  # ok
-    
+
     def post(self):
         current_date = str(date.today())
         data = request.get_json(force=True)
@@ -75,6 +79,7 @@ class ViewSalesRecord(Resource):
             product for product in products if product['product_name'] == request.json['product_name']]
         sale_id = len(sales_record)+1
         attedant_name = data["attedant_name"]
+        customer_name= data["customer_name"]
         product_name = data["product_name"]
         price = current_product[0]['price']
         quantity = data["quantity"]
@@ -91,6 +96,7 @@ class ViewSalesRecord(Resource):
         new_sale = {
             "sale_id": sale_id,
             "attedant_name": attedant_name,
+            "customer_name": customer_name,
             "product_name": product_name,
             "product_price": price,
             "quantity": quantity,
@@ -111,8 +117,7 @@ class ViewSalesRecord(Resource):
 class SingleSale(Resource):
 
     def get(self, sale_id):
-        single_sale = [sale for sale in sales_record if sale['sale_id'] == sale_id]
-        if  single_sale:
+        single_sale= [sale for sale in sales_record if sale['sale_id'] == sale_id]
+        if single_sale:
             return {"Sale": single_sale}, 200  # ok
         return {"Message": "Sale Not Found"}, 400  # ok
-        
