@@ -3,10 +3,7 @@
 '''Testing authentication endpoints'''
 import unittest
 import json
-from flask_jwt_extended import (
-    jwt_required, create_access_token,
-    get_jwt_identity
-)
+import jwt
 
 #Local imports
 from app import create_app

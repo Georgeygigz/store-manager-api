@@ -4,10 +4,6 @@ import re
 import jwt
 from flask import request,jsonify, make_response
 import datetime
-from flask_jwt_extended import (
-    jwt_required, create_access_token,
-    get_jwt_identity
-)
 from functools import wraps
 from passlib.hash import sha256_crypt
 

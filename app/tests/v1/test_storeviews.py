@@ -1,10 +1,7 @@
 # app/tests/v1/test_storeviews.py
 import unittest
 import json
-from flask_jwt_extended import (
-    jwt_required, create_access_token,
-    get_jwt_identity
-)
+import jwt
 from app import create_app
 
 '''
