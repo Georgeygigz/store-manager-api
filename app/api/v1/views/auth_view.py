@@ -11,6 +11,7 @@ from flask_restful import Resource,reqparse
 
 # import class products
 from app.api.v1.models.store_model import StoreManager
+from app.api.v1.utils.utils import Validate
 
 users = StoreManager().get_all_store_attedant()
 
@@ -41,6 +42,7 @@ class CreateAccount(Resource):
         Create an account for new user
         '''
         data = request.get_json(force=True)
+        Validate().validate_empty_users_inputs(data)
         user_id = len(users)+1
         username = data["username"]
         email = data["email"]
@@ -81,6 +83,6 @@ class Login(Resource):
             else:
                 return make_response(jsonify({"message":"Invalid Password"}))
         else:
-            return make_response(jsonify({"message":"Invalid Email"}))
+            return make_response(jsonify({"message":"Invalid Email. If have not account register"}))
 
         return result,200
