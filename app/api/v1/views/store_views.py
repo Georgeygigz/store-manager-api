@@ -15,6 +15,8 @@ products = StoreManager().get_all_products()
 sales_record = StoreManager().get_all_sales()
 
 
+
+
 class ViewProducts(Resource):
     '''Get all products'''
 
@@ -113,11 +115,9 @@ class ViewSalesRecord(Resource):
             "date_sold": date_sold
         }
 
-        product_sold = [
-            product for product in products if product['product_name'] == request.json['product_name']]
 
         sales_record.append(new_sale)
-        product_sold[0]['stock_amount'] -= request.json['quantity']
+        current_product[0]['stock_amount'] -= request.json['quantity']
         return {"New Sale Record": new_sale}, 201  # created
 
 
