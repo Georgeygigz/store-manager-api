@@ -10,10 +10,11 @@ from passlib.hash import sha256_crypt
 from flask_restful import Resource,reqparse
 
 # import class products
-from app.api.v1.models.store_model import StoreManager
+from app.api.v1.models.store_model import Users
 from app.api.v1.utils.utils import Validate
 
-users = StoreManager().get_all_store_attedant()
+users =Users().get_all_users()
+
 
 '''Create a new account'''
 
@@ -48,6 +49,7 @@ class CreateAccount(Resource):
         email = data["email"]
         password = data["password"]
         role = data["role"]
+        single_user=[user for user in users if user['email']==request.json['email']]
         if not re.match(r'^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$', request.json['email']):
             return make_response(jsonify({"message": "invalid Email"}), 401)
 
@@ -59,9 +61,10 @@ class CreateAccount(Resource):
                            "email": email,
                            "password": sha256_crypt.encrypt(password),
                            "role": role}
-
-        if request.json['email'] not in [user['email'] for user in users]:
-            users.append(new_user_detail)
+        
+        if not single_user :
+            new_user=Users(**new_user_detail)
+            new_user.insert_new_user()
             return make_response(jsonify({"message": "Account created successfuly"}), 201)
 
         return make_response(jsonify({"Message": " {} Aready Exist".format(request.json['email'])}), 409)  # conflict

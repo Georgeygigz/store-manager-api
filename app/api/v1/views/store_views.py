@@ -6,13 +6,14 @@ from datetime import date
 from flask_restful import Resource
 
 # local imports
-from app.api.v1.models.store_model import StoreManager
+from app.api.v1.models.store_model import Products,Sales,Users
 from app.api.v1.views.auth_view import login_required
 from app.api.v1.utils.utils import Validate
 
 
-products = StoreManager().get_all_products()
-sales_record = StoreManager().get_all_sales()
+products = Products().get_all_products()
+sales_record = Sales().get_all_sales()
+all_users = Users().get_all_users()
 
 
 
@@ -56,7 +57,8 @@ class ViewProducts(Resource):
             "low_inventory_stock": inventory_stock
         }
 
-        products.append(new_product)
+        new_pro=Products(**new_product)
+        new_pro.insert_new_product()
 
         return {"New Product": new_product}, 201  # created
 
@@ -114,7 +116,8 @@ class ViewSalesRecord(Resource):
             "total_price": total_price,
             "date_sold": date_sold
         }
-        sales_record.append(new_sale)
+        new_sales_record=Sales(**new_sale)
+        new_sales_record.insert_new_sale()
         current_product[0]['stock_amount'] -= request.json['quantity']
         return {"New Sale Record": new_sale}, 201  # created
 
