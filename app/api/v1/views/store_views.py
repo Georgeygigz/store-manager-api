@@ -114,8 +114,6 @@ class ViewSalesRecord(Resource):
             "total_price": total_price,
             "date_sold": date_sold
         }
-
-
         sales_record.append(new_sale)
         current_product[0]['stock_amount'] -= request.json['quantity']
         return {"New Sale Record": new_sale}, 201  # created
