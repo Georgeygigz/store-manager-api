@@ -25,7 +25,7 @@ class ViewProducts(Resource):
         return make_response(jsonify({"Available Products": products}), 200)
 
     '''Adding a new product'''
-
+    @login_required
     def post(self,current_user):
 
         data = request.get_json(force=True)
@@ -68,7 +68,7 @@ class ViewProducts(Resource):
 
 class ViewSingleProduct(Resource):
     @login_required
-    def get(self, product_id,current_user):
+    def get(self,current_user, product_id):
         single_product = [
             product for product in products if product['product_id'] == product_id]
         if not single_product:
@@ -130,7 +130,7 @@ class ViewSalesRecord(Resource):
 
 class SingleSale(Resource):
     @login_required
-    def get(self, sale_id,current_user):
+    def get(self, current_user,sale_id):
         single_sale = [
             sale for sale in sales_record if sale['sale_id'] == sale_id]
         if single_sale:
