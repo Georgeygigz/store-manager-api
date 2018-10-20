@@ -20,13 +20,13 @@ all_users = Users().get_all_users()
 
 class ViewProducts(Resource):
     '''Get all products'''
-
-    def get(self):
+    @login_required
+    def get(self,current_user):
         return make_response(jsonify({"Available Products": products}), 200)
 
     '''Adding a new product'''
 
-    def post(self):
+    def post(self,current_user):
 
         data = request.get_json(force=True)
         Validate().validate_empty_product_inputs(data)
@@ -67,7 +67,8 @@ class ViewProducts(Resource):
 
 
 class ViewSingleProduct(Resource):
-    def get(self, product_id):
+    @login_required
+    def get(self, product_id,current_user):
         single_product = [
             product for product in products if product['product_id'] == product_id]
         if not single_product:
@@ -79,10 +80,12 @@ class ViewSingleProduct(Resource):
 
 
 class ViewSalesRecord(Resource):
-    def get(self):
+    @login_required
+    def get(self,current_user):
         return {"Sales Record": sales_record}, 200  # ok
 
-    def post(self):
+    @login_required
+    def post(self,current_user):
         current_date = str(date.today())
         data = request.get_json(force=True)
         Validate().validate_empty_sales_inputs(data)
@@ -126,8 +129,8 @@ class ViewSalesRecord(Resource):
 
 
 class SingleSale(Resource):
-
-    def get(self, sale_id):
+    @login_required
+    def get(self, sale_id,current_user):
         single_sale = [
             sale for sale in sales_record if sale['sale_id'] == sale_id]
         if single_sale:
