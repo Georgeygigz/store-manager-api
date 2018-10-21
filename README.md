@@ -7,10 +7,11 @@ This is a Store Manager Web Application
 | EndPoints       | Functionality  | HTTP Method  |
 | ------------- |:-------------:| -----:|
 | api/v1/products | Get all the products| GET |
-| api/v1/products | Get all the products| POST |
-| api/v1/products/<int:product_id> | Fetch single product |GET|
+| api/v1/products | Add a new product| POST |
+| api/v1/products/product_id| Fetch single product |GET|
 | api/v1/sales | Fetch all sales record |GET|
 | api/v1/sales | Makes a new sales record |POST|
+| api/v1/sales/sale_id |Fetch single sale record|GET|
 | api/v1/auth/register | Makes a new user account |POST|
 | api/v1/auth/login|User login |POST|
 
