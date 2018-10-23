@@ -27,9 +27,10 @@ class ViewProducts(Resource):
     '''Adding a new product'''
     @login_required
     def post(self,current_user):
-
+ 
         data = request.get_json(force=True)
-        Validate().validate_empty_product_inputs(data)
+        Validate().validate_empty_product_inputs(data) 
+        Validate().validate_correct_keys(data)       
         product_id = len(products)+1
         product_name = data["product_name"]
         category = data["category_id"]
