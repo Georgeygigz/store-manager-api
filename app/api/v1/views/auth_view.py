@@ -63,8 +63,8 @@ class CreateAccount(Resource):
                            "role": role}
         
         if not single_user :
-            new_user=Users(**new_user_detail)
-            new_user.insert_new_user()
+            new_user=Users()
+            new_user.insert_new_user(**new_user_detail)
             return make_response(jsonify({"message": "Account created successfuly"}), 201)
 
         return make_response(jsonify({"Message": " {} Aready Exist".format(request.json['email'])}), 409)  # conflict
@@ -79,7 +79,7 @@ class Login(Resource):
         if  len(cur_user) > 0:		
             password =cur_user[0]['password']
             if sha256_crypt.verify(get_password, password):
-                exp_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=3)
+                exp_time = datetime.datetime.utcnow() + datetime.timedelta(minutes=20)
                 token = jwt.encode({'user_id': cur_user[0]['user_id'],'exp': exp_time},"secret")
                 result={"message":"Login succesful","token":token.decode('utf-8')}
                 

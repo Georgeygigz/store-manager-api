@@ -29,6 +29,3 @@ class Validate:
         if data['password'] == "":
             abort(400, description="Password should not be empty")
     
-    def validate_correct_keys(self,data):
-        if ( not data["product_name"] in request.json):
-            abort(400, description="All field names required")

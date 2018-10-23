@@ -29,8 +29,7 @@ class ViewProducts(Resource):
     def post(self,current_user):
  
         data = request.get_json(force=True)
-        Validate().validate_empty_product_inputs(data) 
-        Validate().validate_correct_keys(data)       
+        Validate().validate_empty_product_inputs(data)  
         product_id = len(products)+1
         product_name = data["product_name"]
         category = data["category_id"]
@@ -58,8 +57,8 @@ class ViewProducts(Resource):
             "low_inventory_stock": inventory_stock
         }
 
-        new_pro=Products(**new_product)
-        new_pro.insert_new_product()
+        new_pro=Products()
+        new_pro.insert_new_product(**new_product)
 
         return {"New Product": new_product}, 201  # created
 
@@ -120,8 +119,8 @@ class ViewSalesRecord(Resource):
             "total_price": total_price,
             "date_sold": date_sold
         }
-        new_sales_record=Sales(**new_sale)
-        new_sales_record.insert_new_sale()
+        new_sales_record=Sales()
+        new_sales_record.insert_new_sale(**new_sale)
         current_product[0]['stock_amount'] -= request.json['quantity']
         return {"New Sale Record": new_sale}, 201  # created
 
