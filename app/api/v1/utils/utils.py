@@ -29,3 +29,7 @@ class Validate:
         if data['password'] == "":
             abort(400, description="Password should not be empty")
     
+    def validate_data_type(self,data):
+        if type(data['product_name']) not in [str]:
+            abort(400, description="Product name should be a string")
+    

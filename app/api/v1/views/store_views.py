@@ -6,7 +6,7 @@ from datetime import date
 from flask_restful import Resource
 
 # local imports
-from app.api.v1.models.store_model import Products,Sales,Users
+from app.api.v1.models.store_model import Products, Sales, Users
 from app.api.v1.views.auth_view import login_required
 from app.api.v1.utils.utils import Validate
 
@@ -16,20 +16,21 @@ sales_record = Sales().get_all_sales()
 all_users = Users().get_all_users()
 
 
-
-
 class ViewProducts(Resource):
     '''Get all products'''
     @login_required
-    def get(self,current_user):
+    def get(self, current_user):
+        if not products:
+            return make_response(jsonify({"Message": "No products available "}), 200)
         return make_response(jsonify({"Available Products": products}), 200)
 
     '''Adding a new product'''
     @login_required
-    def post(self,current_user):
- 
+    def post(self, current_user):
+
         data = request.get_json(force=True)
-        Validate().validate_empty_product_inputs(data)  
+        Validate().validate_empty_product_inputs(data)
+        Validate().validate_data_type(data)
         product_id = len(products)+1
         product_name = data["product_name"]
         category = data["category_id"]
@@ -57,7 +58,7 @@ class ViewProducts(Resource):
             "low_inventory_stock": inventory_stock
         }
 
-        new_pro=Products()
+        new_pro = Products()
         new_pro.insert_new_product(**new_product)
 
         return {"New Product": new_product}, 201  # created
@@ -68,7 +69,7 @@ class ViewProducts(Resource):
 
 class ViewSingleProduct(Resource):
     @login_required
-    def get(self,current_user, product_id):
+    def get(self, current_user, product_id):
         single_product = [
             product for product in products if product['product_id'] == product_id]
         if not single_product:
@@ -81,17 +82,19 @@ class ViewSingleProduct(Resource):
 
 class ViewSalesRecord(Resource):
     @login_required
-    def get(self,current_user):
+    def get(self, current_user):
+        if not sales_record:
+            return {"Message": "No available sale records "}, 200  # ok
         return {"Sales Record": sales_record}, 200  # ok
 
     @login_required
-    def post(self,current_user):
+    def post(self, current_user):
         current_date = str(date.today())
         data = request.get_json(force=True)
         Validate().validate_empty_sales_inputs(data)
         current_product = [
             product for product in products if product['product_name'] == request.json['product_name']]
-        if not current_product or current_product[0]['stock_amount'] == 0:
+        if not current_product or (current_product[0]['stock_amount'] == 0 or request.json['quantity'] > current_product[0]['stock_amount']):
             return {"Message": "{} Out of stock, Please add {} in stock beforemaking a sale".format(request.json['product_name'], request.json['product_name'])}, 200
         sale_id = len(sales_record)+1
         attedant_name = data["attedant_name"]
@@ -119,7 +122,7 @@ class ViewSalesRecord(Resource):
             "total_price": total_price,
             "date_sold": date_sold
         }
-        new_sales_record=Sales()
+        new_sales_record = Sales()
         new_sales_record.insert_new_sale(**new_sale)
         current_product[0]['stock_amount'] -= request.json['quantity']
         return {"New Sale Record": new_sale}, 201  # created
@@ -130,7 +133,7 @@ class ViewSalesRecord(Resource):
 
 class SingleSale(Resource):
     @login_required
-    def get(self, current_user,sale_id):
+    def get(self, current_user, sale_id):
         single_sale = [
             sale for sale in sales_record if sale['sale_id'] == sale_id]
         if single_sale:
